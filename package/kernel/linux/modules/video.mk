@@ -718,6 +718,44 @@ endef
 $(eval $(call KernelPackage,drm-panel-tc358762))
 
 
+define KernelPackage/drm-rockchip
+  SUBMENU:=$(VIDEO_MENU)
+  TITLE:=RockChip DRM support
+  DEPENDS:=@TARGET_rockchip +kmod-drm-display-helper +kmod-drm-dma-helper +kmod-sound-core
+  KCONFIG:= \
+	CONFIG_DRM_ROCKCHIP \
+	CONFIG_DRM_FBDEV_EMULATION=y \
+	CONFIG_DRM_FBDEV_OVERALLOC=100 \
+	CONFIG_ROCKCHIP_VOP2=n \
+	CONFIG_ROCKCHIP_VOP=y \
+	CONFIG_ROCKCHIP_ANALOGIX_DP=n \
+	CONFIG_ROCKCHIP_CDN_DP=y \
+	CONFIG_ROCKCHIP_DW_HDMI=y \
+	CONFIG_ROCKCHIP_DW_MIPI_DSI=n \
+	CONFIG_ROCKCHIP_INNO_HDMI=n \
+	CONFIG_ROCKCHIP_LVDS=n \
+	CONFIG_ROCKCHIP_RGB=n \
+	CONFIG_ROCKCHIP_RK3066_HDMI=n \
+	CONFIG_DRM_DW_HDMI_AHB_AUDIO=n \
+	CONFIG_DRM_DW_HDMI_GP_AUDIO=n \
+	CONFIG_DRM_DW_HDMI_I2S_AUDIO \
+	CONFIG_DRM_DW_HDMI_CEC
+  FILES:= \
+	$(LINUX_DIR)/drivers/gpu/drm/rockchip/rockchipdrm.ko \
+	$(LINUX_DIR)/drivers/gpu/drm/bridge/synopsys/dw-hdmi.ko \
+	$(LINUX_DIR)/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.ko \
+	$(LINUX_DIR)/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.ko \
+	$(LINUX_DIR)/drivers/media/cec/core/cec.ko
+  AUTOLOAD:=$(call AutoProbe,rockchipdrm dw-hdmi dw-hdmi-i2s-audio dw-hdmi-cec cec)
+endef
+
+define KernelPackage/drm-rockchip/description
+  Direct Rendering Manager (DRM) support for RockChip
+endef
+
+$(eval $(call KernelPackage,drm-rockchip))
+
+
 define KernelPackage/drm-panfrost
   SUBMENU:=$(VIDEO_MENU)
   TITLE:=ARM Mali Midgard/Bifrost GPUs DRM support
