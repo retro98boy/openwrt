@@ -599,6 +599,27 @@ endef
 
 $(eval $(call KernelPackage,drm-panel-mipi-dbi))
 
+
+define KernelPackage/drm-panfrost
+  SUBMENU:=$(VIDEO_MENU)
+  TITLE:=ARM Mali Midgard/Bifrost GPUs DRM support
+  DEPENDS:=+kmod-drm-kms-helper
+  KCONFIG:= \
+	CONFIG_DRM_PANFROST
+  FILES:= \
+	$(LINUX_DIR)/drivers/gpu/drm/panfrost/panfrost.ko \
+	$(LINUX_DIR)/drivers/gpu/drm/scheduler/gpu-sched.ko \
+	$(LINUX_DIR)/drivers/gpu/drm/drm_shmem_helper.ko
+  AUTOLOAD:=$(call AutoProbe,panfrost gpu-sched drm_shmem_helper)
+endef
+
+define KernelPackage/drm-panfrost/description
+  Direct Rendering Manager (DRM) support for ARM Mali Midgard/Bifrost GPUs
+endef
+
+$(eval $(call KernelPackage,drm-panfrost))
+
+
 define KernelPackage/drm-radeon
   SUBMENU:=$(VIDEO_MENU)
   TITLE:=Radeon DRM support
