@@ -315,6 +315,20 @@ endef
 $(eval $(call KernelPackage,sound-soc-simple-card))
 
 
+define KernelPackage/sound-soc-hdmi-codec
+  TITLE:=HDMI Codec
+  KCONFIG:= \
+	CONFIG_SND_SOC_HDMI_CODEC
+  FILES:= \
+	$(LINUX_DIR)/sound/soc/codecs/snd-soc-hdmi-codec.ko
+  AUTOLOAD:=$(call AutoProbe,snd-soc-hdmi-codec)
+  DEPENDS:=+kmod-sound-soc-core
+  $(call AddDepends/sound)
+endef
+
+$(eval $(call KernelPackage,sound-soc-hdmi-codec))
+
+
 define KernelPackage/sound-soc-spdif
   TITLE:=SoC S/PDIF codec support
   KCONFIG:=CONFIG_SND_SOC_SPDIF
