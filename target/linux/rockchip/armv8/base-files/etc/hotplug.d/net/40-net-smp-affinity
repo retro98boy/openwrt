@@ -59,5 +59,9 @@ friendlyarm,nanopi-r6s)
 	set_interface_core 4 "eth1"
 	set_interface_core 8 "eth2"
 	;;
+tiannuo,tn3399-v3)
+	set_interface_core 10 "eth0"
+	set_interface_core 20 "eth1" "xhci-hcd:usb7"
+	;;
 esac
 

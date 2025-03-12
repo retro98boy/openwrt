@@ -150,6 +150,13 @@ define U-Boot/rockpro64-rk3399
     pine64_rockpro64
 endef
 
+define U-Boot/tn3399-v3-rk3399
+  $(U-Boot/rk3399/Default)
+  NAME:=TN3399_V3
+  BUILD_DEVICES:= \
+    tiannuo_tn3399-v3
+endef
+
 
 # RK3566 boards
 
@@ -302,6 +309,7 @@ UBOOT_TARGETS := \
   nanopi-r4s-rk3399 \
   rock-pi-4-rk3399 \
   rockpro64-rk3399 \
+  tn3399-v3-rk3399 \
   rock-pi-s-rk3308 \
   nanopi-r2c-rk3328 \
   nanopi-r2c-plus-rk3328 \
