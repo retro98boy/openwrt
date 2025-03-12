@@ -300,6 +300,21 @@ endef
 $(eval $(call KernelPackage,sound-soc-wm8960))
 
 
+define KernelPackage/sound-soc-simple-card
+  TITLE:=ASoC Simple sound card support
+  KCONFIG:= \
+	CONFIG_SND_SIMPLE_CARD
+  FILES:= \
+	$(LINUX_DIR)/sound/soc/generic/snd-soc-simple-card.ko \
+	$(LINUX_DIR)/sound/soc/generic/snd-soc-simple-card-utils.ko
+  AUTOLOAD:=$(call AutoProbe,snd-soc-simple-card snd-soc-simple-card-utils)
+  DEPENDS:=+kmod-sound-soc-core
+  $(call AddDepends/sound)
+endef
+
+$(eval $(call KernelPackage,sound-soc-simple-card))
+
+
 define KernelPackage/sound-soc-spdif
   TITLE:=SoC S/PDIF codec support
   KCONFIG:=CONFIG_SND_SOC_SPDIF
