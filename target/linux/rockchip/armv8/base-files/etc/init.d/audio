@@ -1,0 +1,13 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+
+start() {
+	model=$(cat /proc/device-tree/model)
+
+	case "$model" in
+	"TIANNUO TN3399_V3")
+		alsactl init
+		;;
+	esac
+}
