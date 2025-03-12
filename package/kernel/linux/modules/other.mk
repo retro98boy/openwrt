@@ -1087,6 +1087,21 @@ endef
 $(eval $(call KernelPackage,mhi-pci-generic))
 
 
+define KernelPackage/extcon-usbc-virtual-pd
+  SUBMENU:=$(OTHER_MENU)
+  TITLE:=Virtual Type-C PD EXTCON driver
+  KCONFIG:=CONFIG_EXTCON_USBC_VIRTUAL_PD
+  FILES:=$(LINUX_DIR)/drivers/extcon/extcon-usbc-virtual-pd.ko
+  AUTOLOAD:=$(call AutoProbe,extcon-usbc-virtual-pd)
+endef
+
+define KernelPackage/extcon-usbc-virtual-pd/description
+  Kernel module for the Virtual Type-C PD EXTCON driver.
+endef
+
+$(eval $(call KernelPackage,extcon-usbc-virtual-pd))
+
+
 define KernelPackage/regulator-userspace-consumer
   SUBMENU:=$(OTHER_MENU)
   TITLE:=Userspace regulator consumer support
