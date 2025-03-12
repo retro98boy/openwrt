@@ -300,6 +300,31 @@ endef
 $(eval $(call KernelPackage,sound-soc-wm8960))
 
 
+define KernelPackage/sound-soc-rockchip
+  TITLE:=Rockchip SoC support
+  KCONFIG:= \
+	CONFIG_SND_SOC_ROCKCHIP \
+	CONFIG_SND_SOC_ROCKCHIP_I2S \
+	CONFIG_SND_SOC_ROCKCHIP_PDM \
+	CONFIG_SND_SOC_ROCKCHIP_SPDIF \
+	CONFIG_SND_SOC_ROCKCHIP_I2S_TDM \
+	CONFIG_SND_SOC_ROCKCHIP_MAX98090=n \
+	CONFIG_SND_SOC_ROCKCHIP_RT5645=n \
+	CONFIG_SND_SOC_RK3288_HDMI_ANALOG=n \
+	CONFIG_SND_SOC_RK3399_GRU_SOUND=n
+  FILES:= \
+	$(LINUX_DIR)/sound/soc/rockchip/snd-soc-rockchip-i2s.ko \
+	$(LINUX_DIR)/sound/soc/rockchip/snd-soc-rockchip-pdm.ko \
+	$(LINUX_DIR)/sound/soc/rockchip/snd-soc-rockchip-spdif.ko \
+	$(LINUX_DIR)/sound/soc/rockchip/snd-soc-rockchip-i2s-tdm.ko
+  AUTOLOAD:=$(call AutoProbe,snd-soc-rockchip-i2s snd-soc-rockchip-pdm snd-soc-rockchip-spdif snd-soc-rockchip-i2s-tdm)
+  DEPENDS:=@TARGET_rockchip +kmod-sound-soc-core
+  $(call AddDepends/sound)
+endef
+
+$(eval $(call KernelPackage,sound-soc-rockchip))
+
+
 define KernelPackage/sound-soc-simple-card
   TITLE:=ASoC Simple sound card support
   KCONFIG:= \
