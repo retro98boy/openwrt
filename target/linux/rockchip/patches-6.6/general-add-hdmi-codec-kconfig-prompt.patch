@@ -1,0 +1,13 @@
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index f1e1dbc50..7e82a9d36 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -1039,7 +1039,7 @@ config SND_SOC_DMIC
+ 	  Select this if your sound card has DMICs.
+ 
+ config SND_SOC_HDMI_CODEC
+-	tristate
++	tristate "HDMI CODEC"
+ 	select SND_PCM_ELD
+ 	select SND_PCM_IEC958
+ 	select HDMI
