@@ -376,7 +376,7 @@ define KernelPackage/sound-soc-realtek
 	$(LINUX_DIR)/sound/soc/codecs/snd-soc-rl6231.ko \
 	$(LINUX_DIR)/sound/soc/codecs/snd-soc-rt5640.ko
   AUTOLOAD:=$(call AutoProbe,snd-soc-rl6231 snd-soc-rt5640)
-  DEPENDS:=+kmod-sound-soc-core
+  DEPENDS:=+kmod-sound-soc-core +kmod-regmap-i2c
   $(call AddDepends/sound)
 endef
 
