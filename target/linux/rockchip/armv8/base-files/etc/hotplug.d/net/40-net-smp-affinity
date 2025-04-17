@@ -67,5 +67,9 @@ tiannuo,tn3399-v3)
 	set_interface_core 10 "eth0"
 	set_interface_core 20 "eth1" "xhci-hcd:usb7"
 	;;
+smart,am40)
+	set_interface_core 10 "eth0"
+	set_interface_core 20 "eth1" "xhci-hcd:usb1"
+	;;
 esac
 

@@ -212,6 +212,16 @@ define Device/tiannuo_tn3399-v3
 endef
 TARGET_DEVICES += tiannuo_tn3399-v3
 
+define Device/smart_am40
+  DEVICE_VENDOR := SMART
+  DEVICE_MODEL := AM40
+  SOC := rk3399
+  DEVICE_PACKAGES := wpad-mbedtls kmod-rtw88-8822be kmod-bluetooth kmod-usb-dwc3 \
+  kmod-sound-soc-simple-card kmod-sound-soc-rockchip kmod-sound-soc-hdmi-codec \
+  kmod-drm-rockchip kmod-drm-panfrost kmod-extcon-usbc-virtual-pd rockchip-cdn-dp-firmware
+endef
+TARGET_DEVICES += smart_am40
+
 define Device/radxa_rock-pi-4a
   DEVICE_VENDOR := Radxa
   DEVICE_MODEL := ROCK Pi 4A
