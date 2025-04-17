@@ -201,6 +201,17 @@ define Device/radxa_rock-5b
 endef
 TARGET_DEVICES += radxa_rock-5b
 
+define Device/tiannuo_tn3399-v3
+  DEVICE_VENDOR := TIANNUO
+  DEVICE_MODEL := TN3399_V3
+  SOC := rk3399
+  DEVICE_PACKAGES := wpad-mbedtls kmod-brcmfmac brcmfmac-firmware-tn3399-v3 kmod-bluetooth kmod-usb-dwc3 \
+  kmod-sound-soc-simple-card kmod-sound-soc-simple-amplifier kmod-sound-soc-rockchip kmod-sound-soc-hdmi-codec kmod-sound-soc-realtek \
+  kmod-drm-rockchip kmod-drm-panfrost \
+  kmod-hwmon-gpiofan
+endef
+TARGET_DEVICES += tiannuo_tn3399-v3
+
 define Device/radxa_rock-pi-4a
   DEVICE_VENDOR := Radxa
   DEVICE_MODEL := ROCK Pi 4A
