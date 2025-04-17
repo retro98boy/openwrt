@@ -369,6 +369,16 @@ define Device/radxa_rock-5t
 endef
 TARGET_DEVICES += radxa_rock-5t
 
+define Device/smart_am40
+  $(Device/rk3399)
+  DEVICE_VENDOR := SMART
+  DEVICE_MODEL := AM40
+  DEVICE_PACKAGES := wpad-mbedtls kmod-rtw88-8822be kmod-bluetooth kmod-usb-dwc3 \
+  kmod-sound-soc-simple-card kmod-sound-soc-rockchip kmod-sound-soc-hdmi-codec \
+  kmod-drm-rockchip kmod-drm-panfrost kmod-extcon-usbc-virtual-pd rockchip-cdn-dp-firmware
+endef
+TARGET_DEVICES += smart_am40
+
 define Device/radxa_rock-pi-4a
   $(Device/rk3399)
   DEVICE_VENDOR := Radxa

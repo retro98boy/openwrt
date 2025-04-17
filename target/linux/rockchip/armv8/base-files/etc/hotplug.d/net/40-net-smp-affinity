@@ -78,5 +78,9 @@ radxa,e52c)
 	set_interface_core 10 "lan"
 	set_interface_core 20 "wan"
 	;;
+smart,am40)
+	set_interface_core 10 "eth0"
+	set_interface_core 20 "eth1" "xhci-hcd:usb1"
+	;;
 esac
 
