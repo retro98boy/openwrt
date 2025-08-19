@@ -12,10 +12,10 @@ index f19302ea6..8a00047e4 100644
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-ficus.dtb
 diff --git a/arch/arm64/boot/dts/rockchip/rk3399-am40.dts b/arch/arm64/boot/dts/rockchip/rk3399-am40.dts
 new file mode 100644
-index 000000000..3d43fba3e
+index 000000000..3063e739f
 --- /dev/null
 +++ b/arch/arm64/boot/dts/rockchip/rk3399-am40.dts
-@@ -0,0 +1,755 @@
+@@ -0,0 +1,779 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Copyright (c) 2017 Fuzhou Rockchip Electronics Co., Ltd.
@@ -26,6 +26,7 @@ index 000000000..3d43fba3e
 +
 +#include <dt-bindings/input/linux-event-codes.h>
 +#include <dt-bindings/pwm/pwm.h>
++#include <dt-bindings/leds/common.h>
 +#include "rk3399.dtsi"
 +#include "rk3399-opp.dtsi"
 +
@@ -36,6 +37,7 @@ index 000000000..3d43fba3e
 +	aliases {
 +		mmc0 = &sdhci;
 +		mmc1 = &sdmmc;
++		rtc0 = &pt7c4563;
 +		/*
 +		 * The rk808 circuit design on this board does not have the ability to maintain real-time time after a power outage.
 +		 * Registering rk808 as rtc99 (most kernel configurations read time from rtc0) can prevent the kernel from reading the time (2013) from rk808 during startup.
@@ -60,7 +62,8 @@ index 000000000..3d43fba3e
 +		pinctrl-0 = <&pwr_led>;
 +
 +		pwr-led {
-+			label = "pwr-led";
++			function = LED_FUNCTION_POWER;
++			color = <LED_COLOR_ID_YELLOW>;
 +			gpios = <&gpio4 RK_PC2 GPIO_ACTIVE_HIGH>;
 +			default-state = "on";
 +		};
@@ -211,11 +214,11 @@ index 000000000..3d43fba3e
 +		simple-audio-card,name = "dp-sound";
 +
 +		simple-audio-card,cpu {
-+			// sound-dai = <&i2s2>;
++			/* sound-dai = <&i2s2>; */
 +			sound-dai = <&spdif>;
 +		};
 +		simple-audio-card,codec {
-+			// sound-dai = <&cdn_dp 0>;
++			/* sound-dai = <&cdn_dp 0>; */
 +			sound-dai = <&cdn_dp 1>;
 +		};
 +	};
@@ -267,11 +270,12 @@ index 000000000..3d43fba3e
 +		#address-cells = <1>;
 +		#size-cells = <0>;
 +
-+		rtl8211f: ethernet-phy@0 {
++		rtl8211f: rtl8211f@0 {
 +			reg = <0>;
 +			reset-assert-us = <10000>;
 +			reset-deassert-us = <30000>;
 +			reset-gpios = <&gpio3 RK_PB7 GPIO_ACTIVE_LOW>;
++			realtek,led-data = <0x820b>;
 +		};
 +	};
 +};
@@ -517,6 +521,20 @@ index 000000000..3d43fba3e
 +
 +&i2c4 {
 +	status = "okay";
++	i2c-scl-rising-time-ns = <300>;
++	i2c-scl-falling-time-ns = <300>;
++
++	pt7c4563: rtc@51 {
++		compatible = "haoyu,hym8563";
++		reg = <0x51>;
++		#clock-cells = <0>;
++		clock-output-names = "rtc_xin32k";
++		wakeup-source;
++		interrupt-parent = <&gpio0>;
++		interrupts = <6 IRQ_TYPE_LEVEL_LOW>;
++		pinctrl-0 = <&rtc_int>;
++		pinctrl-names = "default";
++	};
 +};
 +
 +&i2s2 {
@@ -598,6 +616,12 @@ index 000000000..3d43fba3e
 +
 +		vsel2_pin: vsel2-pin {
 +			rockchip,pins = <1 RK_PB6 RK_FUNC_GPIO &pcfg_pull_down>;
++		};
++	};
++
++	rtc {
++		rtc_int: rtc-int {
++			rockchip,pins = <0 RK_PA6 RK_FUNC_GPIO &pcfg_pull_up>;
 +		};
 +	};
 +
