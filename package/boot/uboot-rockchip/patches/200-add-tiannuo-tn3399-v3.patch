@@ -94,10 +94,10 @@ index 00000000..c9effb6b
 +CONFIG_ERRNO_STR=y
 diff --git a/dts/upstream/src/arm64/rockchip/rk3399-tn3399-v3.dts b/dts/upstream/src/arm64/rockchip/rk3399-tn3399-v3.dts
 new file mode 100644
-index 00000000..1e2220b2
+index 00000000..99c26fdf
 --- /dev/null
 +++ b/dts/upstream/src/arm64/rockchip/rk3399-tn3399-v3.dts
-@@ -0,0 +1,881 @@
+@@ -0,0 +1,889 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Copyright (c) 2017 Fuzhou Rockchip Electronics Co., Ltd.
@@ -213,7 +213,7 @@ index 00000000..1e2220b2
 +	sdio_pwrseq: sdio-pwrseq {
 +		compatible = "mmc-pwrseq-simple";
 +		clocks = <&rk808 1>;
-+		clock-names = "lpo";
++		clock-names = "ext_clock";
 +		pinctrl-names = "default";
 +		pinctrl-0 = <&wifi_enable_h>;
 +		reset-gpios = <&gpio0 RK_PB2 GPIO_ACTIVE_LOW>;
@@ -405,7 +405,7 @@ index 00000000..1e2220b2
 +		#address-cells = <1>;
 +		#size-cells = <0>;
 +
-+		rtl8211e: ethernet-phy@0 {
++		rtl8211e: rtl8211e@0 {
 +			reg = <0>;
 +			reset-assert-us = <10000>;
 +			reset-deassert-us = <30000>;
@@ -787,7 +787,7 @@ index 00000000..1e2220b2
 +		};
 +	};
 +
-+	usb2 {
++	usb {
 +		vcc5v0_typec0_en: vcc5v0-typec0-en {
 +			rockchip,pins = <0 RK_PA5 RK_FUNC_GPIO &pcfg_pull_none>;
 +		};
@@ -849,7 +849,7 @@ index 00000000..1e2220b2
 +		compatible = "brcm,bcm43455-fmac";
 +		reg = <1>;
 +		interrupt-parent = <&gpio0>;
-+		interrupts = <RK_PA3 GPIO_ACTIVE_HIGH>;
++		interrupts = <RK_PA3 IRQ_TYPE_LEVEL_HIGH>;
 +		interrupt-names = "host-wake";
 +		pinctrl-names = "default";
 +		pinctrl-0 = <&wifi_host_wake_l>;
@@ -894,6 +894,10 @@ index 00000000..1e2220b2
 +&u2phy0 {
 +	status = "okay";
 +
++	u2phy0_otg: otg-port {
++		status = "okay";
++	};
++
 +	u2phy0_host: host-port {
 +		phy-supply = <&usb_vbus>;
 +		status = "okay";
@@ -902,6 +906,10 @@ index 00000000..1e2220b2
 +
 +&u2phy1 {
 +	status = "okay";
++
++	u2phy1_otg: otg-port {
++		status = "okay";
++	};
 +
 +	u2phy1_host: host-port {
 +		phy-supply = <&usb_vbus>;
