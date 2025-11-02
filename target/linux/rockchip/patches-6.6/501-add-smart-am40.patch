@@ -1,8 +1,8 @@
 diff --git a/arch/arm64/boot/dts/rockchip/Makefile b/arch/arm64/boot/dts/rockchip/Makefile
-index f19302ea6..8a00047e4 100644
+index 97110e46d..9f0c399bb 100644
 --- a/arch/arm64/boot/dts/rockchip/Makefile
 +++ b/arch/arm64/boot/dts/rockchip/Makefile
-@@ -30,6 +30,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-lion-haikou.dtb
+@@ -35,6 +35,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-lion-haikou.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-orion-r68-meta.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-px5-evb.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3368-r88.dtb
@@ -12,10 +12,10 @@ index f19302ea6..8a00047e4 100644
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-ficus.dtb
 diff --git a/arch/arm64/boot/dts/rockchip/rk3399-am40.dts b/arch/arm64/boot/dts/rockchip/rk3399-am40.dts
 new file mode 100644
-index 000000000..3063e739f
+index 000000000..76c8658f4
 --- /dev/null
 +++ b/arch/arm64/boot/dts/rockchip/rk3399-am40.dts
-@@ -0,0 +1,779 @@
+@@ -0,0 +1,792 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Copyright (c) 2017 Fuzhou Rockchip Electronics Co., Ltd.
@@ -217,6 +217,7 @@ index 000000000..3063e739f
 +			/* sound-dai = <&i2s2>; */
 +			sound-dai = <&spdif>;
 +		};
++
 +		simple-audio-card,codec {
 +			/* sound-dai = <&cdn_dp 0>; */
 +			sound-dai = <&cdn_dp 1>;
@@ -291,11 +292,11 @@ index 000000000..3063e739f
 +	ddc-i2c-bus = <&i2c3>;
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&hdmi_cec>;
-+	status = "disabled";
++	status = "okay";
 +};
 +
 +&hdmi_sound {
-+	status = "disabled";
++	status = "okay";
 +};
 +
 +&i2c0 {
@@ -519,6 +520,10 @@ index 000000000..3063e739f
 +	};
 +};
 +
++&i2c3 {
++	status = "okay";
++};
++
 +&i2c4 {
 +	status = "okay";
 +	i2c-scl-rising-time-ns = <300>;
@@ -625,7 +630,7 @@ index 000000000..3063e739f
 +		};
 +	};
 +
-+	usb2 {
++	usb {
 +		vcc5v0_host_en: vcc5v0-hots-en {
 +			rockchip,pins = <1 RK_PA3 RK_FUNC_GPIO &pcfg_pull_none>;
 +		};
@@ -703,6 +708,10 @@ index 000000000..3063e739f
 +&u2phy0 {
 +	status = "okay";
 +
++	u2phy0_otg: otg-port {
++		status = "okay";
++	};
++
 +	u2phy0_host: host-port {
 +		phy-supply = <&vcc5v0_host>;
 +		status = "okay";
@@ -711,6 +720,10 @@ index 000000000..3063e739f
 +
 +&u2phy1 {
 +	status = "okay";
++
++	u2phy1_otg: otg-port {
++		status = "okay";
++	};
 +
 +	u2phy1_host: host-port {
 +		phy-supply = <&vcc5v0_host>;
