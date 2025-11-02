@@ -36,7 +36,7 @@ python3-distutils python3-setuptools python3-pyelftools python3-dev rsync swig u
 # 清理
 RUN apt autopurge -y && apt autoclean
 
-RUN mkdir -p /work && chown ubuntu /work
+RUN mkdir -p /workspace && chown ubuntu /workspace
 
-WORKDIR /work
+WORKDIR /workspace
 USER ubuntu
