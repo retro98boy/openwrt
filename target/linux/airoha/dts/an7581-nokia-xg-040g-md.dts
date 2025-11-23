@@ -1,0 +1,302 @@
+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+/dts-v1/;
+
+/* Bootloader installs ATF here */
+/memreserve/ 0x80000000 0x200000;
+
+#include <dt-bindings/leds/common.h>
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+#include "an7581.dtsi"
+
+/ {
+	model = "Nokia XG-040G-MD";
+	compatible = "nokia,xg-040g-md", "airoha,an7581", "airoha,en7581";
+
+	aliases {
+		serial0 = &uart1;
+	};
+
+	chosen {
+		bootargs = "console=ttyS0,115200 earlycon";
+		stdout-path = "serial0:115200n8";
+		linux,usable-memory-range = <0x0 0x80200000 0x0 0x1fe00000>;
+	};
+
+	memory@80000000 {
+		device_type = "memory";
+		reg = <0x0 0x80000000 0x0 0x20000000>;
+	};
+
+	gpio-keys-polled {
+		compatible = "gpio-keys-polled";
+		poll-interval = <100>;
+
+		btn0 {
+			label = "reset";
+			linux,code = <KEY_RESTART>;
+			gpios = <&en7581_pinctrl 0 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	leds {
+		compatible = "gpio-leds";
+
+		pwr_led: led-0 {
+			label = "pwr";
+			color = <LED_COLOR_ID_GREEN>;
+			function = LED_FUNCTION_POWER;
+			gpios = <&en7581_pinctrl 17 GPIO_ACTIVE_LOW>;
+			default-state = "on";
+		};
+
+		pon_led: led-1 {
+			label = "pon";
+			color = <LED_COLOR_ID_GREEN>;
+			function = LED_FUNCTION_STATUS;
+			gpios = <&en7581_pinctrl 18 GPIO_ACTIVE_LOW>;
+			default-state = "off";
+		};
+
+		los_led: led-2 {
+			label = "los";
+			color = <LED_COLOR_ID_RED>;
+			function = LED_FUNCTION_STATUS;
+			gpios = <&en7581_pinctrl 19 GPIO_ACTIVE_LOW>;
+			default-state = "off";
+		};
+
+		internet_led: led-3 {
+			label = "internet";
+			color = <LED_COLOR_ID_GREEN>;
+			function = LED_FUNCTION_STATUS;
+			gpios = <&en7581_pinctrl 20 GPIO_ACTIVE_LOW>;
+			default-state = "off";
+		};
+
+#if 1
+		lan2_led: led-4 {
+			label = "lan2";
+			color = <LED_COLOR_ID_GREEN>;
+			function = LED_FUNCTION_LAN;
+			gpios = <&en7581_pinctrl 44 GPIO_ACTIVE_LOW>;
+			default-state = "off";
+		};
+
+		lan3_led: led-5 {
+			label = "lan3";
+			color = <LED_COLOR_ID_GREEN>;
+			function = LED_FUNCTION_LAN;
+			gpios = <&en7581_pinctrl 45 GPIO_ACTIVE_LOW>;
+			default-state = "off";
+		};
+
+		lan4_led: led-6 {
+			label = "lan4";
+			color = <LED_COLOR_ID_GREEN>;
+			function = LED_FUNCTION_LAN;
+			gpios = <&en7581_pinctrl 46 GPIO_ACTIVE_LOW>;
+			default-state = "off";
+		};
+#endif
+
+		usb1_led: led-7 {
+			label = "usb1";
+			color = <LED_COLOR_ID_GREEN>;
+			function = LED_FUNCTION_USB;
+			gpios = <&en7581_pinctrl 35 GPIO_ACTIVE_LOW>;
+			default-state = "off";
+		};
+
+		usb2_led: led-8 {
+			label = "usb2";
+			color = <LED_COLOR_ID_GREEN>;
+			function = LED_FUNCTION_USB;
+			gpios = <&en7581_pinctrl 34 GPIO_ACTIVE_LOW>;
+			default-state = "off";
+		};
+	};
+
+	regulator-led-pwr {
+		compatible = "regulator-fixed";
+		enable-active-low;
+		gpio = <&en7581_pinctrl 16 GPIO_ACTIVE_LOW>;
+		regulator-name = "led_pwr";
+		regulator-always-on;
+		regulator-boot-on;
+	};
+};
+
+&en7581_pinctrl {
+	gpio-ranges = <&en7581_pinctrl 0 13 47>;
+
+	mdio_pins: mdio-pins {
+		mux {
+			function = "mdio";
+			groups = "mdio";
+		};
+
+		conf {
+			pins = "gpio2";
+			output-high;
+		};
+	};
+
+#if 0
+	gswp2_led1_pins: gswp2-led1-pins {
+		mux {
+			function = "phy2_led1";
+			pins = "gpio44";
+		};
+	};
+
+	gswp3_led1_pins: gswp3-led1-pins {
+		mux {
+			function = "phy3_led1";
+			pins = "gpio45";
+		};
+	};
+
+	gswp4_led1_pins: gswp4-led1-pins {
+		mux {
+			function = "phy4_led1";
+			pins = "gpio46";
+		};
+	};
+#endif
+};
+
+&snfi {
+	status = "okay";
+};
+
+&spi_nand {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		bootloader@0 {
+			label = "bootloader";
+			reg = <0x00000000 0x00080000>;
+			read-only;
+		};
+
+		u-boot-env@80000 {
+			label = "u-boot-env";
+			reg = <0x00080000 0x00080000>;
+		};
+
+		ubi@100000 {
+			label = "ubi";
+			reg = <0x00100000 0x00000000>;
+		};
+	};
+};
+
+&i2c0 {
+	status = "okay";
+};
+
+&usb0 {
+	status = "okay";
+};
+
+&usb1 {
+	status = "okay";
+	mediatek,u3p-dis-msk = <0x1>;
+	phys = <&usb1_phy PHY_TYPE_USB2>;
+};
+
+&eth {
+	status = "okay";
+};
+
+&gdm1 {
+	status = "okay";
+};
+
+&gdm4 {
+	status = "okay";
+	phy-mode = "2500base-x";
+	phy-handle = <&en8811h>;
+};
+
+&switch {
+	pinctrl-names = "default";
+	pinctrl-0 = <&mdio_pins>;
+	status = "okay";
+};
+
+&gsw_port2 {
+	status = "okay";
+	label = "lan2";
+};
+
+&gsw_phy2 {
+	/* pinctrl-names = "gbe-led"; */
+	/* pinctrl-0 = <&gswp2_led1_pins>; */
+	status = "okay";
+};
+
+&gsw_phy2_led1 {
+	/* status = "okay"; */
+	function = LED_FUNCTION_LAN;
+};
+
+&gsw_port3 {
+	status = "okay";
+	label = "lan3";
+};
+
+&gsw_phy3 {
+	/* pinctrl-names = "gbe-led"; */
+	/* pinctrl-0 = <&gswp3_led1_pins>; */
+	status = "okay";
+};
+
+&gsw_phy3_led1 {
+	/* status = "okay"; */
+	function = LED_FUNCTION_LAN;
+};
+
+&gsw_port4 {
+	status = "okay";
+	label = "lan4";
+};
+
+&gsw_phy4 {
+	/* pinctrl-names = "gbe-led"; */
+	/* pinctrl-0 = <&gswp4_led1_pins>; */
+	status = "okay";
+};
+
+&gsw_phy4_led1 {
+	/* status = "okay"; */
+	function = LED_FUNCTION_LAN;
+};
+
+&mdio {
+	en8811h: ethernet-phy@f {
+		reg = <15>;
+		reset-gpios = <&en7581_pinctrl 31 GPIO_ACTIVE_LOW>;
+		reset-assert-us = <10000>;
+		reset-deassert-us = <20000>;
+		phy-mode = "2500base-x";
+		full-duplex;
+		pause;
+
+		leds {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			led@0 { /* en8811_b_gpio5 */
+				reg = <0>;
+				label = "wan";
+				color = <LED_COLOR_ID_GREEN>;
+				function = LED_FUNCTION_WAN;
+				default-state = "keep";
+			};
+		};
+	};
+};
