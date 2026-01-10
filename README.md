@@ -32,8 +32,11 @@ make -f custom-build/docker-run.mk './scripts/feeds install -a'
 ## 生成自定义配置
 
 ```
+rm .config*
 cd custom-build && sh x86-64-efi-qemu-cfg.sh && mv x86-64-efi-qemu-cfg ../.config && cd ..
 make -f custom-build/docker-run.mk 'make defconfig'
+# 如果需要调整配置
+make -f custom-build/docker-run.mk 'make menuconfig'
 ```
 
 其他目标同理
