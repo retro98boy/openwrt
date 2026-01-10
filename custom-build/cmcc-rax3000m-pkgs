@@ -1,7 +1,7 @@
 # 旧的lua插件兼容
 CONFIG_PACKAGE_luci-compat=y
 
-# opkg源为https时需要此软件包，ca-bundle官方配置已集成
+# apk源为https时需要此软件包，ca-bundle官方配置已集成
 CONFIG_PACKAGE_ca-certificates=y
 
 # 网络驱动
