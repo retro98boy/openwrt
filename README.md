@@ -1,3 +1,52 @@
+# 自用OpenWrt
+
+树外设备移植，自用配置编译镜像
+
+支持的设备：
+
+- Nokia XG-040G-MD
+
+- SMART AM40
+
+- X86_64 EFI QEMU
+
+# 快速编译
+
+## 准备
+
+一台装有`docker` `docker-buildx` `git` `wget` `sed` `make`的任意Linux发行版主机，并准备好源码
+
+首次编译需要构建Docker镜像：
+
+```
+docker buildx build -t retro98boy/openwrt-dev:latest custom-build
+```
+
+## 更新并安装feeds
+
+```
+make -f custom-build/docker-run.mk './scripts/feeds update -a'
+make -f custom-build/docker-run.mk './scripts/feeds install -a'
+```
+
+## 生成自定义配置
+
+```
+cd custom-build && sh x86-64-efi-qemu-cfg.sh && mv x86-64-efi-qemu-cfg ../.config && cd ..
+make -f custom-build/docker-run.mk 'make defconfig'
+```
+
+其他目标同理
+
+## 编译
+
+```
+make -f custom-build/docker-run.mk 'make download V=s -j$(nproc)'
+make -f custom-build/docker-run.mk 'make V=s -j$(nproc)'
+```
+
+# Original README
+
 ![OpenWrt logo](include/logo.png)
 
 OpenWrt Project is a Linux operating system targeting embedded devices. Instead
