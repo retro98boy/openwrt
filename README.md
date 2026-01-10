@@ -2,9 +2,9 @@
 
 树外设备移植，自用配置编译镜像
 
-支持的设备：
-
 - Nokia XG-040G-MD
+
+- CMCC RAX3000M
 
 - SMART AM40
 
