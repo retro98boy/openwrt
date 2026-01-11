@@ -48,6 +48,12 @@ make -f custom-build/docker-run.mk 'make download V=s -j$(nproc)'
 make -f custom-build/docker-run.mk 'make V=s -j$(nproc)'
 ```
 
+# 源码对比
+
+[retro98boy/openwrt:main <- openwrt/openwrt:main](https://github.com/retro98boy/openwrt/compare/main...openwrt:openwrt:main)
+
+[openwrt/openwrt:main <- retro98boy/openwrt:main](https://github.com/openwrt/openwrt/compare/main...retro98boy:openwrt:main)
+
 # Original README
 
 ![OpenWrt logo](include/logo.png)
