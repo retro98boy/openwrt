@@ -108,6 +108,11 @@ define Build/linksys-image
 	mv $@.new $@
 endef
 
+define Build/xikestor-nosimg
+	$(STAGING_DIR_HOST)/bin/nosimg-enc -i $@ -o $@.new
+	mv $@.new $@
+endef
+
 define Build/zynsig
 	$(STAGING_DIR_HOST)/bin/zynsig -i $@ \
 		-o $@.new
@@ -155,6 +160,12 @@ define Device/uimage-rt-loader
 	KERNEL/rt-loader := kernel-bin | append-dtb | rt-compress | rt-loader
 	KERNEL := $$(KERNEL/rt-loader) | uImage none
 	KERNEL_INITRAMFS := $$(KERNEL/rt-loader) | uImage none
+endef
+
+define Device/rt-loader-bootbase
+	KERNEL/rt-compress := kernel-bin | append-dtb | rt-compress
+	KERNEL := $$(KERNEL/rt-compress) | uImage lzma
+	KERNEL_INITRAMFS := $$(KERNEL/rt-compress) | uImage lzma | rt-loader
 endef
 
 include $(SUBTARGET).mk

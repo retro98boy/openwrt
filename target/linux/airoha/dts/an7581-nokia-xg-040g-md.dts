@@ -208,6 +208,10 @@
 	phys = <&usb1_phy PHY_TYPE_USB2>;
 };
 
+&npu {
+	status = "okay";
+};
+
 &eth {
 	status = "okay";
 };

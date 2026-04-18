@@ -154,6 +154,9 @@ define collect_module_symvers
 		grep -F $(PKG_BUILD_DIR) $(PKG_BUILD_DIR)/$$$$subdir/Module.symvers >> $(PKG_BUILD_DIR)/Module.symvers.tmp; \
 		[ "$(PKG_BUILD_DIR)" = "$$$$realdir" ] || \
 			grep -F $$$$realdir $(PKG_BUILD_DIR)/$$$$subdir/Module.symvers >> $(PKG_BUILD_DIR)/Module.symvers.tmp; \
+		[ -s "$(PKG_BUILD_DIR)/Module.symvers.tmp" ] || [ "$(KERNEL_PATCHVER)" = "6.18" ] && \
+			sed 's/\.o$$$$//' $(PKG_BUILD_DIR)/$$$$subdir/modules.order | \
+			grep -Ff - $(PKG_BUILD_DIR)/$$$$subdir/Module.symvers >> $(PKG_BUILD_DIR)/Module.symvers.tmp; \
 	done; \
 	sort -u $(PKG_BUILD_DIR)/Module.symvers.tmp > $(PKG_BUILD_DIR)/Module.symvers; \
 	mkdir -p $(PKG_SYMVERS_DIR); \
@@ -212,7 +215,6 @@ define KernelPackage
     TITLE:=$(TITLE)
     SECTION:=kernel
     CATEGORY:=Kernel modules
-    DESCRIPTION:=$(DESCRIPTION)
     EXTRA_DEPENDS:=kernel (=$(subst -rc,_rc,$(LINUX_VERSION))~$(LINUX_VERMAGIC)-r$(LINUX_RELEASE))
     VERSION:=$(subst -rc,_rc,$(LINUX_VERSION))$(if $(PKG_VERSION),.$(PKG_VERSION))-r$(if $(PKG_RELEASE),$(PKG_RELEASE),$(LINUX_RELEASE))
     PKGFLAGS:=$(PKGFLAGS)
