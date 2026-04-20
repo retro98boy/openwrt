@@ -128,6 +128,13 @@ define U-Boot/am40-rk3399
     smart_am40
 endef
 
+define U-Boot/emb-3531-rk3399
+  $(U-Boot/rk3399/Default)
+  NAME:=EMB-3531
+  BUILD_DEVICES:= \
+    norco_emb-3531
+endef
+
 define U-Boot/nanopc-t4-rk3399
   $(U-Boot/rk3399/Default)
   NAME:=NanoPC T4
@@ -433,6 +440,7 @@ endef
 
 UBOOT_TARGETS := \
   am40-rk3399 \
+  emb-3531-rk3399 \
   nanopc-t4-rk3399 \
   nanopi-r4s-rk3399 \
   rock-4c-plus-rk3399 \

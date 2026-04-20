@@ -415,6 +415,16 @@ define Device/smart_am40
 endef
 TARGET_DEVICES += smart_am40
 
+define Device/norco_emb-3531
+  $(Device/rk3399)
+  DEVICE_VENDOR := NORCO
+  DEVICE_MODEL := EMB-3531
+  DEVICE_PACKAGES := kmod-usb-dwc3 \
+  kmod-sound-soc-simple-card kmod-sound-soc-rockchip kmod-sound-soc-hdmi-codec \
+  kmod-drm-rockchip kmod-drm-panfrost kmod-extcon-usbc-virtual-pd rockchip-cdn-dp-firmware
+endef
+TARGET_DEVICES += norco_emb-3531
+
 define Device/radxa_rock-pi-4a
   $(Device/rk3399)
   DEVICE_VENDOR := Radxa

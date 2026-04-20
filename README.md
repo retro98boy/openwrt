@@ -8,6 +8,8 @@
 
 - SMART AM40
 
+- NORCO EMB-3531
+
 - X86_64 EFI QEMU
 
 # 快速编译

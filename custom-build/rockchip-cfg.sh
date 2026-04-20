@@ -13,6 +13,8 @@ sed -i '/^CONFIG_TARGET_DEVICE/d' $CFG_FILE
 # 增加目标
 echo "CONFIG_TARGET_DEVICE_rockchip_armv8_DEVICE_smart_am40=y" >> $CFG_FILE
 echo "CONFIG_TARGET_DEVICE_PACKAGES_rockchip_armv8_DEVICE_smart_am40=""" >> $CFG_FILE
+echo "CONFIG_TARGET_DEVICE_rockchip_armv8_DEVICE_norco_emb-3531=y" >> $CFG_FILE
+echo "CONFIG_TARGET_DEVICE_PACKAGES_rockchip_armv8_DEVICE_norco_emb-3531=""" >> $CFG_FILE
 
 # 修改分区大小
 echo "CONFIG_TARGET_KERNEL_PARTSIZE=32" >> $CFG_FILE
