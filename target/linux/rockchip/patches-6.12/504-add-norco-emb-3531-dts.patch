@@ -25,7 +25,7 @@ index 000000000..8f4cb3489
 +/dts-v1/;
 +
 +#include <dt-bindings/pwm/pwm.h>
-+#include "rk3399.dtsi"
++#include "rk3399-op1.dtsi"
 +
 +/ {
 +	model = "NORCO EMB-3531";
