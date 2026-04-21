@@ -354,6 +354,18 @@ endef
 $(eval $(call KernelPackage,sound-soc-hdmi-codec))
 
 
+define KernelPackage/sound-soc-es8316
+  TITLE:=SoC ES8316 codec support
+  KCONFIG:=CONFIG_SND_SOC_ES8316
+  FILES:=$(LINUX_DIR)/sound/soc/codecs/snd-soc-es8316.ko
+  DEPENDS:=+kmod-sound-soc-core +kmod-i2c-core +kmod-regmap-i2c
+  AUTOLOAD:=$(call AutoProbe,snd-soc-es8316)
+  $(call AddDepends/sound)
+endef
+
+$(eval $(call KernelPackage,sound-soc-es8316))
+
+
 define KernelPackage/sound-soc-spdif
   TITLE:=SoC S/PDIF codec support
   KCONFIG:=CONFIG_SND_SOC_SPDIF
