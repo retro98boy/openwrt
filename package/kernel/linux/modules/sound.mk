@@ -340,6 +340,18 @@ endef
 $(eval $(call KernelPackage,sound-soc-simple-card))
 
 
+define KernelPackage/sound-soc-simple-amplifier
+  TITLE:=Simple Audio Amplifier
+  KCONFIG:=CONFIG_SND_SOC_SIMPLE_AMPLIFIER
+  FILES:=$(LINUX_DIR)/sound/soc/codecs/snd-soc-simple-amplifier.ko
+  AUTOLOAD:=$(call AutoProbe,snd-soc-simple-amplifier)
+  DEPENDS:=+kmod-sound-soc-core
+  $(call AddDepends/sound)
+endef
+
+$(eval $(call KernelPackage,sound-soc-simple-amplifier))
+
+
 define KernelPackage/sound-soc-hdmi-codec
   TITLE:=HDMI Codec
   KCONFIG:= \
