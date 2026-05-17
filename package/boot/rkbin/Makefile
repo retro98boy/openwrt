@@ -37,6 +37,12 @@ define Trusted-Firmware-A/rk3308-tpl-rock-pi-s
   TPL:=rk33/rk3308_ddr_589MHz_uart0_m0_v2.10.bin
 endef
 
+define Trusted-Firmware-A/rk3399-tpl-norco-emb-3531
+  NAME:=NORCO EMB-3531 board
+  BUILD_SUBTARGET:=armv8
+  TPL:=rk33/rk3399_ddr_800MHz_v1.30.bin
+endef
+
 define Trusted-Firmware-A/rk3528
   BUILD_SUBTARGET:=armv8
   ATF:=rk35/rk3528_bl31_v1.20.elf
@@ -76,6 +82,7 @@ endef
 TFA_TARGETS:= \
 	rk3308 \
 	rk3308-tpl-rock-pi-s \
+	rk3399-tpl-norco-emb-3531 \
 	rk3528 \
 	rk3566 \
 	rk3568 \

@@ -130,6 +130,8 @@ endef
 
 define U-Boot/emb-3531-rk3399
   $(U-Boot/rk3399/Default)
+  DEPENDS+=+PACKAGE_u-boot-$(1):trusted-firmware-a-rk3399-tpl-norco-emb-3531
+  TPL:=rk3399_ddr_800MHz_v1.30.bin
   NAME:=EMB-3531
   BUILD_DEVICES:= \
     norco_emb-3531
