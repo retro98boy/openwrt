@@ -419,6 +419,8 @@ define Device/smart_am40
   $(Device/rk3399)
   DEVICE_VENDOR := SMART
   DEVICE_MODEL := AM40
+  DEVICE_DTS := rk3399-am40
+  DEVICE_DTS_DIR := ../dts
   DEVICE_PACKAGES := wpad-mbedtls kmod-rtw88-8822be kmod-bluetooth kmod-usb-dwc3 \
   kmod-sound-soc-simple-card kmod-sound-soc-rockchip kmod-sound-soc-hdmi-codec \
   kmod-drm-rockchip kmod-drm-panfrost kmod-extcon-usbc-virtual-pd rockchip-cdn-dp-firmware
@@ -428,6 +430,8 @@ TARGET_DEVICES += smart_am40
 define Device/norco_emb-3531
   $(Device/rk3399)
   DEVICE_VENDOR := NORCO
+  DEVICE_DTS := rk3399-emb-3531
+  DEVICE_DTS_DIR := ../dts
   DEVICE_MODEL := EMB-3531
   DEVICE_PACKAGES := kmod-usb-dwc3 \
   kmod-sound-soc-simple-card kmod-sound-soc-simple-amplifier kmod-sound-soc-rockchip kmod-sound-soc-hdmi-codec kmod-sound-soc-es8316 \

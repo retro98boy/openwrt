@@ -774,7 +774,8 @@ $(eval $(call KernelPackage,drm-panel-tc358762))
 define KernelPackage/drm-rockchip
   SUBMENU:=$(VIDEO_MENU)
   TITLE:=RockChip DRM support
-  DEPENDS:=@TARGET_rockchip +kmod-drm-display-helper +kmod-drm-dma-helper +kmod-sound-core
+  DEPENDS:=@TARGET_rockchip +kmod-drm-display-helper +kmod-drm-dma-helper +kmod-sound-core \
+	+LINUX_6_18:kmod-drm-client-lib
   KCONFIG:= \
 	CONFIG_DRM_ROCKCHIP \
 	CONFIG_DRM_FBDEV_EMULATION=y \
@@ -783,8 +784,11 @@ define KernelPackage/drm-rockchip
 	CONFIG_ROCKCHIP_VOP=y \
 	CONFIG_ROCKCHIP_ANALOGIX_DP=n \
 	CONFIG_ROCKCHIP_CDN_DP=y \
+	CONFIG_ROCKCHIP_DW_DP=n \
 	CONFIG_ROCKCHIP_DW_HDMI=y \
+	CONFIG_ROCKCHIP_DW_HDMI_QP=n \
 	CONFIG_ROCKCHIP_DW_MIPI_DSI=n \
+	CONFIG_ROCKCHIP_DW_MIPI_DSI2=n \
 	CONFIG_ROCKCHIP_INNO_HDMI=n \
 	CONFIG_ROCKCHIP_LVDS=n \
 	CONFIG_ROCKCHIP_RGB=n \
