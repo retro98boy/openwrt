@@ -8,9 +8,6 @@ platform_do_upgrade() {
 		gemtek,w1700k-ubi)
 			fit_do_upgrade "$1"
 			;;
-		nokia,xg-040g-md)
-			nand_do_upgrade "$1"
-			;;
 		*)
 			nand_do_upgrade "$1"
 			;;

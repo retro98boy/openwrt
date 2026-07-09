@@ -15,9 +15,6 @@ case "$board" in
 gemtek,w1700k-ubi)
 	ubootenv_add_ubi_default
 	;;
-nokia,xg-040g-md)
-	ubootenv_add_uci_config "/dev/mtd1" "0x0" "0x80000"
-	;;
 esac
 
 config_load ubootenv
