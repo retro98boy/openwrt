@@ -24,8 +24,9 @@
 #include <linux/kobject.h>
 #include <linux/input.h>
 #include <linux/interrupt.h>
+#include <linux/of.h>
 #include <linux/platform_device.h>
-#include <linux/of_irq.h>
+#include <linux/property.h>
 #include <linux/gpio.h>
 #include <linux/gpio_keys.h>
 #include <linux/gpio/consumer.h>
@@ -219,7 +220,7 @@ static int button_hotplug_create_event(const char *name, unsigned int type,
 	event->seen = seen;
 	event->action = pressed ? "pressed" : "released";
 
-	INIT_WORK(&event->work, (void *)(void *)button_hotplug_work);
+	INIT_WORK(&event->work, button_hotplug_work);
 	schedule_work(&event->work);
 
 	return 0;
@@ -350,8 +351,7 @@ static void gpio_keys_irq_work_func(struct work_struct *work)
 
 static irqreturn_t button_handle_irq(int irq, void *_bdata)
 {
-	struct gpio_keys_button_data *bdata =
-		(struct gpio_keys_button_data *) _bdata;
+	struct gpio_keys_button_data *bdata = _bdata;
 
 	mod_delayed_work(system_wq, &bdata->work,
 			 msecs_to_jiffies(bdata->software_debounce));
@@ -378,6 +378,7 @@ gpio_keys_get_devtree_pdata(struct device *dev)
 
 	device_for_each_child_node_scoped(dev, pp) {
 		struct gpio_keys_button *button = &buttons[i++];
+		int irq;
 
 		if (fwnode_property_read_u32(pp, "linux,code", &button->code)) {
 			dev_err(dev, "Button node '%s' without keycode\n",
@@ -397,11 +398,12 @@ gpio_keys_get_devtree_pdata(struct device *dev)
 
 		button->wakeup = fwnode_property_present(pp, "gpio-key,wakeup");
 		button->gpio = -ENOENT; /* mark this as device-tree */
-		button->irq = fwnode_irq_get(pp, 0);
-		if (button->irq == -EPROBE_DEFER)
-			return ERR_PTR(button->irq);
-		if (button->irq < 0)
-			button->irq = 0;
+
+		irq = fwnode_irq_get(pp, 0);
+		if (irq == -EPROBE_DEFER)
+			return ERR_PTR(irq);
+
+		button->irq = max(0, irq);
 	}
 
 	pdata = devm_kzalloc(dev, sizeof(struct gpio_keys_platform_data), GFP_KERNEL);
