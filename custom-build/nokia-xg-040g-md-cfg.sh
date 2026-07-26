@@ -11,8 +11,8 @@ sed -i 's/CONFIG_TARGET_ALL_PROFILES=y/CONFIG_TARGET_ALL_PROFILES=n/' $CFG_FILE
 sed -i '/^CONFIG_TARGET_DEVICE/d' $CFG_FILE
 
 # 增加目标
-echo "CONFIG_TARGET_DEVICE_airoha_an7581_DEVICE_nokia_xg-040g-md=y" >> $CFG_FILE
-echo "CONFIG_TARGET_DEVICE_PACKAGES_airoha_an7581_DEVICE_nokia_xg-040g-md=""" >> $CFG_FILE
+echo "CONFIG_TARGET_DEVICE_airoha_an7581_DEVICE_nokia_xg-040g-md-ubi=y" >> $CFG_FILE
+echo "CONFIG_TARGET_DEVICE_PACKAGES_airoha_an7581_DEVICE_nokia_xg-040g-md-ubi=""" >> $CFG_FILE
 
 # 集成中文luci
 echo "CONFIG_PACKAGE_luci=y" >> $CFG_FILE
