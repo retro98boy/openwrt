@@ -1008,6 +1008,38 @@ define Device/comfast_cf-e393ax
 endef
 TARGET_DEVICES += comfast_cf-e393ax
 
+define Device/comfast_cf-wa933-common
+  DEVICE_VENDOR := COMFAST
+  DEVICE_MODEL := CF-WA933
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_DTC_FLAGS := --pad 4096
+  DEVICE_DTS_LOADADDR := 0x43f00000
+  DEVICE_PACKAGES := kmod-ledtrig-network kmod-mt7915e kmod-mt7981-firmware mt7981-wo-firmware
+  KERNEL_LOADADDR := 0x44000000
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  KERNEL_IN_UBI := 1
+  IMAGES := sysupgrade.bin
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+
+define Device/comfast_cf-wa933
+  DEVICE_VARIANT := 64M
+  DEVICE_DTS := mt7981a-comfast-cf-wa933
+  IMAGE_SIZE := 65536k
+  $(call Device/comfast_cf-wa933-common)
+endef
+TARGET_DEVICES += comfast_cf-wa933
+
+define Device/comfast_cf-wa933-128m
+  DEVICE_VARIANT := 128M
+  DEVICE_DTS := mt7981a-comfast-cf-wa933-128m
+  IMAGE_SIZE := 117248k
+  $(call Device/comfast_cf-wa933-common)
+endef
+TARGET_DEVICES += comfast_cf-wa933-128m
+
 define Device/comfast_cf-wr632ax-common
   DEVICE_VENDOR := COMFAST
   DEVICE_MODEL := CF-WR632AX
@@ -1557,6 +1589,23 @@ define Device/cudy_wr3000p-v1-ubootmod
   ARTIFACT/bl31-uboot.fip := mt7981-bl31-uboot cudy_wr3000p-v1
 endef
 TARGET_DEVICES += cudy_wr3000p-v1-ubootmod
+
+define Device/cudy_wr3000u-v1
+  DEVICE_VENDOR := Cudy
+  DEVICE_MODEL := WR3000U
+  DEVICE_VARIANT := v1
+  DEVICE_DTS := mt7981b-cudy-wr3000u-v1
+  DEVICE_DTS_DIR := ../dts
+  SUPPORTED_DEVICES += R138
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  IMAGE_SIZE := 235520k
+  KERNEL_IN_UBI := 1
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+  DEVICE_PACKAGES := kmod-usb3 kmod-mt7915e kmod-mt7981-firmware mt7981-wo-firmware
+endef
+TARGET_DEVICES += cudy_wr3000u-v1
 
 define Device/cudy_wbr3000uax-v1
   DEVICE_VENDOR := Cudy
@@ -2747,6 +2796,32 @@ define Device/netis_eap930-v1
 endef
 TARGET_DEVICES += netis_eap930-v1
 
+define Device/netis_n6-v2
+  DEVICE_VENDOR := netis
+  DEVICE_MODEL := N6 V2
+  DEVICE_DTS := mt7981b-netis-n6-v2
+  DEVICE_DTS_DIR := ../dts
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  KERNEL_IN_UBI := 1
+  UBOOTENV_IN_UBI := 1
+  IMAGES := sysupgrade.itb
+  KERNEL_INITRAMFS_SUFFIX := -recovery.itb
+  KERNEL := kernel-bin | libdeflate-gzip
+  KERNEL_INITRAMFS := kernel-bin | lzma | \
+	fit lzma $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb with-initrd | pad-to 64k
+  IMAGE/sysupgrade.itb := append-kernel | \
+	fit gzip $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb external-static-with-rootfs | \
+	append-metadata
+  DEVICE_PACKAGES := kmod-mt7915e kmod-mt7981-firmware mt7981-wo-firmware \
+	kmod-usb3 kmod-usb-ledtrig-usbport
+  ARTIFACTS := preloader.bin bl31-uboot.fip
+  ARTIFACT/preloader.bin := mt7981-bl2 spim-nand-ddr3-1866
+  ARTIFACT/bl31-uboot.fip := mt7981-bl31-uboot netis_n6-v2
+endef
+TARGET_DEVICES += netis_n6-v2
+
 define Device/netis_nx30v2
   DEVICE_VENDOR := netis
   DEVICE_MODEL := NX30
@@ -3152,6 +3227,32 @@ define Device/tenda_be12-pro
   IMAGE/sysupgrade.bin := append-kernel | tenda-mkdualimageheader | sysupgrade-tar kernel=$$$$@ | append-metadata
 endef
 TARGET_DEVICES += tenda_be12-pro
+
+define Device/teralink_tl3020-256mb
+  DEVICE_VENDOR := Teralink
+  DEVICE_MODEL := TL3020
+  DEVICE_VARIANT := 256mb
+  DEVICE_DTS := mt7981b-teralink-tl3020-256mb
+  DEVICE_DTS_DIR := ../dts
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  KERNEL_IN_UBI := 1
+  UBOOTENV_IN_UBI := 1
+  IMAGES := sysupgrade.itb
+  KERNEL_INITRAMFS_SUFFIX := -recovery.itb
+  KERNEL := kernel-bin | libdeflate-gzip
+  KERNEL_INITRAMFS := kernel-bin | lzma | \
+	fit lzma $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb with-initrd | pad-to 64k
+  IMAGE/sysupgrade.itb := append-kernel | \
+	fit gzip $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb external-static-with-rootfs | \
+	append-metadata
+  DEVICE_PACKAGES := kmod-usb3 kmod-mt7915e kmod-mt7981-firmware mt7981-wo-firmware
+  ARTIFACTS := preloader.bin bl31-uboot.fip
+  ARTIFACT/preloader.bin := mt7981-bl2 spim-nand-ddr3-1866
+  ARTIFACT/bl31-uboot.fip := mt7981-bl31-uboot teralink_tl3020-256mb
+endef
+TARGET_DEVICES += teralink_tl3020-256mb
 
 define Device/totolink_x6000r
   DEVICE_VENDOR := TOTOLINK

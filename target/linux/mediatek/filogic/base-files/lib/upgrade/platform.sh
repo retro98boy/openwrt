@@ -168,6 +168,7 @@ platform_do_upgrade() {
 	mediatek,mt7988a-rfb|\
 	mercusys,mr90x-v1-ubi|\
 	netis,eap930-v1|\
+	netis,n6-v2|\
 	netis,nx30v2|\
 	netis,nx31|\
 	netis,nx32u|\
@@ -180,6 +181,7 @@ platform_do_upgrade() {
 	routerich,ax3000-ubootmod|\
 	routerich,be7200|\
 	snr,snr-cpe-ax2|\
+	teralink,tl3020-256mb|\
 	tplink,be450-ubi|\
 	tplink,tl-xdr4288|\
 	tplink,tl-xdr6086|\
@@ -414,12 +416,14 @@ platform_check_image() {
 	mercusys,mr90x-v1-ubi|\
 	nokia,ea0326gmp|\
 	netis,eap930-v1|\
+	netis,n6-v2|\
 	netis,nx32u|\
 	openwrt,one|\
 	netcore,n60|\
 	qihoo,360t7|\
 	qihoo,360t7-ubi|\
 	routerich,ax3000-ubootmod|\
+	teralink,tl3020-256mb|\
 	tplink,be450-ubi|\
 	tplink,tl-xdr4288|\
 	tplink,tl-xdr6086|\
