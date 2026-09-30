@@ -7,6 +7,7 @@ DOCKER_IMAGE_TAG := latest
 
 define DOCKER_RUN
 	$(DOCKER) run -it --init --rm \
+	-e TERMINFO=/usr/share/terminfo \
 	-v $(ROOT_DIR):/workspace \
 	-u 1000:1000 \
 	$(DOCKER_IMAGE):$(DOCKER_IMAGE_TAG)
