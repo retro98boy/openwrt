@@ -16,7 +16,7 @@ index 00000000..50b0ca0d
 +};
 diff --git a/configs/emb-3531-rk3399_defconfig b/configs/emb-3531-rk3399_defconfig
 new file mode 100644
-index 00000000..6c6fe382
+index 00000000..64eea886
 --- /dev/null
 +++ b/configs/emb-3531-rk3399_defconfig
 @@ -0,0 +1,70 @@
@@ -62,10 +62,10 @@ index 00000000..6c6fe382
 +CONFIG_MMC_SDHCI=y
 +CONFIG_MMC_SDHCI_SDMA=y
 +CONFIG_MMC_SDHCI_ROCKCHIP=y
-+CONFIG_PHY_REALTEK=y
 +CONFIG_DM_ETH_PHY=y
 +CONFIG_ETH_DESIGNWARE=y
 +CONFIG_GMAC_ROCKCHIP=y
++CONFIG_PHY_REALTEK=y
 +CONFIG_NVME_PCI=y
 +CONFIG_PHY_ROCKCHIP_INNO_USB2=y
 +CONFIG_PHY_ROCKCHIP_TYPEC=y
