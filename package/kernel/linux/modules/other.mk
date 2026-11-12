@@ -1264,9 +1264,26 @@ endef
 $(eval $(call KernelPackage,mhi-pci-generic))
 
 
+define KernelPackage/extcon-core
+  SUBMENU:=$(OTHER_MENU)
+  TITLE:=External connector class support
+  HIDDEN:=1
+  KCONFIG:=CONFIG_EXTCON
+  FILES:=$(LINUX_DIR)/drivers/extcon/extcon-core.ko
+  AUTOLOAD:=$(call AutoProbe,extcon-core)
+endef
+
+define KernelPackage/extcon-core/description
+  Common framework for external connector state and property notifications.
+endef
+
+$(eval $(call KernelPackage,extcon-core))
+
+
 define KernelPackage/extcon-usbc-virtual-pd
   SUBMENU:=$(OTHER_MENU)
   TITLE:=Virtual Type-C PD EXTCON driver
+  DEPENDS:=@GPIO_SUPPORT @LINUX_6_18 +kmod-extcon-core
   KCONFIG:=CONFIG_EXTCON_USBC_VIRTUAL_PD
   FILES:=$(LINUX_DIR)/drivers/extcon/extcon-usbc-virtual-pd.ko
   AUTOLOAD:=$(call AutoProbe,extcon-usbc-virtual-pd)

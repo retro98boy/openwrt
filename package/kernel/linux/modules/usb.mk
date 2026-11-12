@@ -1775,15 +1775,14 @@ $(eval $(call KernelPackage,usbip-server))
 
 define KernelPackage/usb-chipidea
   TITLE:=Host and device support for Chipidea controllers
-  DEPENDS:=+USB_GADGET_SUPPORT:kmod-usb-gadget @TARGET_ath79 +kmod-usb-ehci +kmod-usb-phy-nop +kmod-usb-roles +kmod-phy-ath79-usb
+  DEPENDS:=+USB_GADGET_SUPPORT:kmod-usb-gadget @TARGET_ath79 +kmod-usb-ehci \
+	+kmod-usb-phy-nop +kmod-usb-roles +kmod-phy-ath79-usb +kmod-extcon-core
   KCONFIG:= \
-	CONFIG_EXTCON \
 	CONFIG_USB_CHIPIDEA \
 	CONFIG_USB_CHIPIDEA_GENERIC \
 	CONFIG_USB_CHIPIDEA_HOST=y \
 	CONFIG_USB_CHIPIDEA_UDC=y
   FILES:= \
-	$(LINUX_DIR)/drivers/extcon/extcon-core.ko \
 	$(LINUX_DIR)/drivers/usb/chipidea/ci_hdrc.ko \
 	$(LINUX_DIR)/drivers/usb/common/ulpi.ko
   AUTOLOAD:=$(call AutoLoad,39,ci_hdrc,1)
@@ -1801,12 +1800,10 @@ define KernelPackage/usb-chipidea2
   TITLE:=Host and device support for Chipidea2 controllers
   DEPENDS:=+kmod-usb-chipidea
   KCONFIG:= \
-	CONFIG_EXTCON \
 	CONFIG_USB_CHIPIDEA \
 	CONFIG_USB_CHIPIDEA_HOST=y \
 	CONFIG_USB_CHIPIDEA_UDC=y
   FILES:= \
-	$(LINUX_DIR)/drivers/extcon/extcon-core.ko \
 	$(LINUX_DIR)/drivers/usb/chipidea/ci_hdrc_usb2.ko
   AUTOLOAD:=$(call AutoLoad,39,ci_hdrc_usb2,1)
   $(call AddDepends/usb)
