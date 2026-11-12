@@ -1,0 +1,79 @@
+name: Build and publish firmware
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: firmware-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  cmcc:
+    name: CMCC RAX3000M
+    uses: ./.github/workflows/firmware-build.yml
+    with:
+      target: cmcc-rax3000m
+
+  nokia:
+    name: Nokia XG-040G-MD
+    needs: cmcc
+    uses: ./.github/workflows/firmware-build.yml
+    with:
+      target: nokia-xg-040g-md
+
+  x86:
+    name: x86-64-efi-qemu
+    needs: nokia
+    uses: ./.github/workflows/firmware-build.yml
+    with:
+      target: x86-64-efi-qemu
+
+  rockchip:
+    name: Rockchip
+    needs: x86
+    uses: ./.github/workflows/firmware-build.yml
+    with:
+      target: rockchip
+
+  release:
+    name: Publish prerelease
+    needs: [cmcc, nokia, x86, rockchip]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: firmware-*
+          merge-multiple: true
+          path: release
+
+      - name: Publish all firmware images
+        working-directory: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          tag="prerelease-$(date -u +%Y%m%d-%H%M%S)-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          assets=( * )
+          cat > release-notes.md <<EOF
+          Built from ${GITHUB_SHA} using the custom-build device configurations.
+
+          Build order: CMCC RAX3000M → Nokia XG-040G-MD → x86-64-efi-qemu → Rockchip (SMART AM40 and NORCO EMB-3531).
+
+          Release assets are selected by custom-build/release-files.json. Build configurations, feed revisions, checksums and logs are available in this run's Actions artifacts.
+
+          Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
+          EOF
+          # Upload privately first; expose the prerelease only after every asset exists.
+          gh release create "$tag" --target "$GITHUB_SHA" --title "OpenWrt $tag" \
+            --notes-file release-notes.md --draft --prerelease
+          for asset in "${assets[@]}"; do
+            gh release upload "$tag" "$asset"
+          done
+          gh release edit "$tag" --draft=false --prerelease
+          echo "Published: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/$tag" >> "$GITHUB_STEP_SUMMARY"

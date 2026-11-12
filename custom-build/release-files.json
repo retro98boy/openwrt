@@ -1,0 +1,25 @@
+{
+  "cmcc-rax3000m": [
+    "bin/targets/mediatek/filogic/openwrt-mediatek-filogic-cmcc_rax3000m-initramfs-recovery.itb",
+    "bin/targets/mediatek/filogic/openwrt-mediatek-filogic-cmcc_rax3000m-nand-ddr3-bl31-uboot.fip",
+    "bin/targets/mediatek/filogic/openwrt-mediatek-filogic-cmcc_rax3000m-nand-ddr3-preloader.bin",
+    "bin/targets/mediatek/filogic/openwrt-mediatek-filogic-cmcc_rax3000m-nand-ddr4-bl31-uboot.fip",
+    "bin/targets/mediatek/filogic/openwrt-mediatek-filogic-cmcc_rax3000m-nand-ddr4-preloader.bin",
+    "bin/targets/mediatek/filogic/openwrt-mediatek-filogic-cmcc_rax3000m-squashfs-sysupgrade.itb"
+  ],
+  "nokia-xg-040g-md": [
+    "bin/targets/airoha/an7581/openwrt-airoha-an7581-nokia_xg-040g-md-ubi-bl31-uboot.fip",
+    "bin/targets/airoha/an7581/openwrt-airoha-an7581-nokia_xg-040g-md-ubi-initramfs-recovery.itb",
+    "bin/targets/airoha/an7581/openwrt-airoha-an7581-nokia_xg-040g-md-ubi-preloader.bin",
+    "bin/targets/airoha/an7581/openwrt-airoha-an7581-nokia_xg-040g-md-ubi-squashfs-sysupgrade.itb"
+  ],
+  "x86-64-efi-qemu": [
+    "bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined-efi.img.gz"
+  ],
+  "rockchip": [
+    "staging_dir/target-*/image/am40-rk3399-u-boot-rockchip.bin",
+    "staging_dir/target-*/image/emb-3531-rk3399-u-boot-rockchip.bin",
+    "bin/targets/rockchip/armv8/openwrt-rockchip-armv8-norco_emb-3531-squashfs-sysupgrade.img.gz",
+    "bin/targets/rockchip/armv8/openwrt-rockchip-armv8-smart_am40-squashfs-sysupgrade.img.gz"
+  ]
+}

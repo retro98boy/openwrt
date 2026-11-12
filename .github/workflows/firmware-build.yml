@@ -1,0 +1,71 @@
+name: Build one custom firmware target
+
+on:
+  workflow_call:
+    inputs:
+      target:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      BUILD_TARGET: ${{ inputs.target }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Free space for the toolchain and firmware
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /opt/hostedtoolcache/CodeQL
+          df -h .
+
+      - uses: actions/cache@v4
+        with:
+          path: dl
+          key: firmware-dl-${{ runner.os }}-${{ inputs.target }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            firmware-dl-${{ runner.os }}-${{ inputs.target }}-
+
+      - name: Build the custom-build Docker environment
+        run: docker build -t openwrt-firmware-ci custom-build
+
+      - name: Build firmware in Docker
+        run: |
+          set -euo pipefail
+          # Match the user used by custom-build/docker-run.mk.
+          sudo chown -R 1000:1000 "$GITHUB_WORKSPACE"
+          docker run --rm --init --user 1000:1000 \
+            --env BUILD_TARGET \
+            --volume "$GITHUB_WORKSPACE:/workspace" \
+            openwrt-firmware-ci bash custom-build/ci-build.sh
+
+      - name: Upload firmware assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware-${{ inputs.target }}
+          path: ci-output/release/*
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
+          overwrite: true
+
+      - name: Upload build logs and configuration
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs-${{ inputs.target }}
+          path: |
+            ci-output/logs/
+            ci-output/build-info/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 14
+          overwrite: true
