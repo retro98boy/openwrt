@@ -20,3 +20,6 @@ echo "CONFIG_LUCI_LANG_zh_Hans=y" >> $CFG_FILE
 
 # 集成额外的软件包
 cat cmcc-rax3000m-pkgs >> $CFG_FILE
+
+sed -i -E '/^(# )?CONFIG_(PACKAGE_kmod-pf-ring|IB)(=| is not set)/d' "$CFG_FILE"
+printf '%s\n' '# CONFIG_PACKAGE_kmod-pf-ring is not set' '# CONFIG_IB is not set' >> "$CFG_FILE"
