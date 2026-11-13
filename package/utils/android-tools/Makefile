@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=android-tools
 PKG_VERSION:=35.0.2
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=https://github.com/nmeum/android-tools/releases/download/$(PKG_VERSION)
@@ -25,7 +25,7 @@ define Package/android-tools
   URL:=https://github.com/nmeum/android-tools
   DEPENDS:=+libstdcpp +libusb-1.0 +libpcre2 +zlib +protobuf \
 	+liblz4 +libzstd +libbrotli
-  PROVIDES:=adb fastboot
+  PROVIDES:=fastboot
   CONFLICTS:=adb
 endef
 
