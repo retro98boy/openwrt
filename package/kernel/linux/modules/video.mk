@@ -392,7 +392,7 @@ define KernelPackage/drm-dma-helper
   HIDDEN:=1
   TITLE:=GEM DMA helper functions
   DEPENDS:=video-support +kmod-drm-kms-helper \
-	+PACKAGE_kmod-fb:kmod-fb-sys-fops +PACKAGE_kmod-fb:kmod-fb-sys-ram
+	+TARGET_rockchip:kmod-fb-sys-fops +TARGET_rockchip:kmod-fb-sys-ram
   KCONFIG:=CONFIG_DRM_GEM_DMA_HELPER
   FILES:=$(LINUX_DIR)/drivers/gpu/drm/drm_dma_helper.ko
   AUTOLOAD:=$(call AutoProbe,drm_dma_helper)
@@ -410,7 +410,7 @@ define KernelPackage/drm-shmem-helper
   HIDDEN:=1
   TITLE:=GEM SHMEM helper functions
   DEPENDS:=video-support +kmod-drm-kms-helper \
-	+PACKAGE_kmod-fb:kmod-fb-sys-fops +PACKAGE_kmod-fb:kmod-fb-sys-ram
+	+TARGET_rockchip:kmod-fb-sys-fops +TARGET_rockchip:kmod-fb-sys-ram
   KCONFIG:=CONFIG_DRM_GEM_SHMEM_HELPER
   FILES:=$(LINUX_DIR)/drivers/gpu/drm/drm_shmem_helper.ko
   AUTOLOAD:=$(call AutoProbe,drm_shmem_helper)
@@ -492,7 +492,7 @@ $(eval $(call KernelPackage,drm-ttm-helper))
 define KernelPackage/drm-kms-helper
   SUBMENU:=$(VIDEO_MENU)
   TITLE:=CRTC helpers for KMS drivers
-  DEPENDS:=video-support +kmod-drm +PACKAGE_kmod-fb:kmod-fb
+  DEPENDS:=video-support +kmod-drm +TARGET_rockchip:kmod-fb
   KCONFIG:=CONFIG_DRM_KMS_HELPER
   FILES:=$(LINUX_DIR)/drivers/gpu/drm/drm_kms_helper.ko
   AUTOLOAD:=$(call AutoProbe,drm_kms_helper)
