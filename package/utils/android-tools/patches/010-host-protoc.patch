@@ -1,0 +1,15 @@
+--- a/vendor/CMakeLists.txt
++++ b/vendor/CMakeLists.txt
+@@ -101,6 +101,12 @@
+ 
+ find_package(Protobuf CONFIG)
+ find_package(Protobuf REQUIRED)
++if(CMAKE_CROSSCOMPILING)
++	set_target_properties(protobuf::protoc PROPERTIES
++		IMPORTED_LOCATION "${Protobuf_PROTOC_EXECUTABLE}"
++		IMPORTED_LOCATION_RELEASE "${Protobuf_PROTOC_EXECUTABLE}"
++		IMPORTED_LOCATION_NOCONFIG "${Protobuf_PROTOC_EXECUTABLE}")
++endif()
+ set(THREADS_PREFER_PTHREAD_FLAG ON)
+ find_package(Threads REQUIRED)
+ 
