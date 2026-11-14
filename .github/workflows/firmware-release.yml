@@ -58,7 +58,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
-          tag="prerelease-$(date -u +%Y%m%d-%H%M%S)-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          tag="$(date -u +%Y.%m.%d.%H%M%S)+git${GITHUB_SHA:0:12}"
           assets=( * )
           cat > release-notes.md <<EOF
           Built from ${GITHUB_SHA} using the custom-build device configurations.
@@ -70,7 +70,7 @@ jobs:
           Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
           EOF
           # Upload privately first; expose the prerelease only after every asset exists.
-          gh release create "$tag" --target "$GITHUB_SHA" --title "OpenWrt $tag" \
+          gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" \
             --notes-file release-notes.md --draft --prerelease
           for asset in "${assets[@]}"; do
             gh release upload "$tag" "$asset"
