@@ -37,7 +37,8 @@ CONFIG_PACKAGE_ethtool-full=y
 CONFIG_PACKAGE_iperf3=y
 CONFIG_PACKAGE_tcpdump=y
 CONFIG_PACKAGE_nmap-full=y
-CONFIG_PACKAGE_curl=y
+# libcurl 会自动链接 adb/fastboot 引入的 Brotli 库，但未声明依赖，导致打包失败，暂不启用 curl。
+# CONFIG_PACKAGE_curl=y
 CONFIG_PACKAGE_htop=y
 CONFIG_PACKAGE_btop=y
 CONFIG_PACKAGE_procps-ng=y
